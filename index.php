@@ -12,7 +12,6 @@ use App\Vue\Vue_Structure_Entete;
 
 //Page appelée pour les utilisateurs publics
 
-// test
 $Vue = new Vue();
 
 //Charge le gestionnaire de vue
