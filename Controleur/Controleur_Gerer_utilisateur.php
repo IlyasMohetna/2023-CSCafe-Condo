@@ -12,7 +12,7 @@ use App\Vue\Vue_Utilisateur_Liste;
 $Vue->setEntete(new Vue_Structure_Entete());
 
 
-$Vue->setMenu(new Vue_Menu_Administration());
+$Vue->setMenu(new Vue_Menu_Administration($_SESSION["idCategorie_utilisateur"]) );
 
 switch ($action) {
     // Niveau d'autorisation 1 : SuperAdmin : peut tout faire.

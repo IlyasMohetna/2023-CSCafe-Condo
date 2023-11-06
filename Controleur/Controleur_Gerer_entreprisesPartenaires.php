@@ -18,7 +18,7 @@ use function App\Fonctions\GenereMDP;
  * Le tri entre les actions est fait sur l'existence des boutons submit. Deux boutons ne doivent pas avoir le même nom ! ;)
  */
 $Vue->setEntete(new Vue_Structure_Entete());
-$Vue->setMenu(new Vue_Menu_Administration());
+$Vue->setMenu(new Vue_Menu_Administration($_SESSION["idCategorie_utilisateur"]) );
 
 switch ($action) {
     case "Modifer":

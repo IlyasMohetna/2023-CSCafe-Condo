@@ -20,7 +20,7 @@ use App\Vue\Vue_Structure_Entete;
 
 
 $Vue->setEntete(new Vue_Structure_Entete());
-$Vue->setMenu(new Vue_Menu_Administration());
+$Vue->setMenu(new Vue_Menu_Administration($_SESSION["idCategorie_utilisateur"]) );
 $listeCategorie = Modele_Catalogue::Categorie_Select_Tous();
 $Vue->addToCorps(new Vue_Categories_Liste($listeCategorie, true));
 
