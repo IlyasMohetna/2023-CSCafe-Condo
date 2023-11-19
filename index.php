@@ -49,6 +49,31 @@ switch ($typeConnexion) {
         include "Controleur/Controleur_visiteur.php";
         break;
     case "utilisateurCafe":
+        switch ($case) {
+            case "Gerer_CommandeClient":
+            case "Gerer_Commande":
+                include "Controleur/Controleur_Gerer_Commande.php";
+                break;
+            case "Gerer_entreprisesPartenaires":
+                include "Controleur/Controleur_Gerer_entreprisesPartenaires.php";
+                break;
+            case "Gerer_utilisateur":
+                include "Controleur/Controleur_Gerer_utilisateur.php";
+                break;
+            case "Gerer_catalogue":
+                include "Controleur/Controleur_Gerer_catalogue.php";
+                break;
+            case "Gerer_monCompte":
+                include "Controleur/Controleur_Gerer_monCompte.php";
+                break;
+            case'AccepterRGPD':
+                include "Controleur/Controleur_AccepterRGPD.php";
+                break;    
+          default:
+                $Vue->setMenu(new Vue_Menu_Administration());
+                break;
+        }
+        break;
     case "administrateurLogiciel":
         switch ($case) {
             case "Gerer_CommandeClient":
@@ -75,7 +100,6 @@ switch ($typeConnexion) {
     case "entrepriseCliente" :
     case "salarieEntrepriseCliente" :
         switch ($case) {
-
             case "Gerer_CommandeClient":
                 include "Controleur/Controleur_Gerer_CommandeClient.php";
                 break;

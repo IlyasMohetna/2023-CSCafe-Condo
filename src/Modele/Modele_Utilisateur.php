@@ -124,9 +124,9 @@ class Modele_Utilisateur
         $connexionPDO = Singleton_ConnexionPDO::getInstance();
 
         $requetePreparee = $connexionPDO->prepare(
-'UPDATE `utilisateur`
-SET `login`= :paramlogin, `idCategorie_utilisateur`= :paramidCategorie_utilisateur
-WHERE idUtilisateur = :paramidUtilisateur');
+            'UPDATE `utilisateur`
+            SET `login`= :paramlogin, `idCategorie_utilisateur`= :paramidCategorie_utilisateur
+            WHERE idUtilisateur = :paramidUtilisateur');
         $requetePreparee->bindParam('paramlogin', $login);
         $requetePreparee->bindParam('paramidCategorie_utilisateur', $idCodeCategorie);
         $requetePreparee->bindParam('paramidUtilisateur', $idUtilisateur);
@@ -191,5 +191,27 @@ SET motDePasse = :parammotDePasse ');
         $reponse = $requetePreparee->execute(); //$reponse boolean sur l'état de la requête
         return $reponse;
     }
+
+    static function Utilisateur_Activer_RGPD($idUtilisateur)
+{
+    $connexionPDO = Singleton_ConnexionPDO::getInstance();
+
+    $aAccepteRGPD = 1;
+    $dateAcceptionRGPD = date("Y-m-d H:i:s");
+
+    $requetePreparee = $connexionPDO->prepare(
+        'UPDATE `utilisateur` 
+        SET `aAccepteRGPD` = :aAccepteRGPD, `dateAcceptionRGPD` = :dateAcceptionRGPD
+        WHERE idUtilisateur = :paramidUtilisateur'
+    );
+
+    // Utilisation de bindParam avec des variables
+    $requetePreparee->bindParam(':aAccepteRGPD', $aAccepteRGPD, PDO::PARAM_INT);
+    $requetePreparee->bindParam(':dateAcceptionRGPD', $dateAcceptionRGPD, PDO::PARAM_STR);
+    $requetePreparee->bindParam(':paramidUtilisateur', $idUtilisateur, PDO::PARAM_INT);
+
+    $reponse = $requetePreparee->execute(); //$reponse boolean sur l'état de la requête
+    return $reponse;
+}
 
 }

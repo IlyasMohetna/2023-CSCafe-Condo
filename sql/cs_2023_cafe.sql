@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mer. 06 sep. 2023 à 13:41
+-- Généré le : dim. 19 nov. 2023 à 21:35
 -- Version du serveur : 10.4.24-MariaDB
 -- Version de PHP : 8.1.6
 
@@ -97,9 +97,10 @@ INSERT INTO `commande` (`id`, `dateCreation`, `idEntreprise`, `etat`) VALUES
 (5, '2022-04-07 15:58:35', 20, 2),
 (6, '2022-10-12 05:35:27', 20, 2),
 (7, '2022-10-12 15:11:23', 25, 6),
-(8, '2022-11-09 16:27:53', 20, 2),
+(8, '2022-11-09 16:27:53', 20, 6),
 (9, '2022-11-09 17:42:01', 20, 2),
-(10, '2022-11-09 17:42:28', 20, 1);
+(10, '2022-11-09 17:42:28', 20, 1),
+(11, '2023-11-05 21:32:06', 25, 2);
 
 -- --------------------------------------------------------
 
@@ -128,7 +129,9 @@ INSERT INTO `commande_avoir_article` (`idCommande`, `idProduit`, `quantite`, `pr
 (8, 150, 50, 7, 0.1),
 (9, 150, 2, 7, 0.1),
 (10, 154, 4, 7, 0.1),
-(10, 196, 5, 25, 0.1);
+(10, 196, 5, 25, 0.1),
+(11, 128, 2, 6, 0.1),
+(11, 129, 1, 6, 0.1);
 
 -- --------------------------------------------------------
 
@@ -239,7 +242,11 @@ INSERT INTO `historique_etat_commande` (`idHistorique`, `idCommande`, `etat`, `d
 (21, 7, 4, '2022-10-12 15:12:28', '', -1, 18),
 (22, 7, 6, '2022-10-12 15:12:31', '', -1, 18),
 (23, 8, 2, '2022-11-09 17:09:46', 'Commande passée par userZoomBox userZoomBox', 12, -1),
-(24, 9, 2, '2022-11-09 17:42:04', 'Commande passée par userZoomBox userZoomBox', 12, -1);
+(24, 9, 2, '2022-11-09 17:42:04', 'Commande passée par userZoomBox userZoomBox', 12, -1),
+(25, 11, 2, '2023-11-05 21:32:31', 'Commande passée par  ', NULL, -1),
+(26, 8, 3, '2023-11-05 21:38:23', '', -1, 19),
+(27, 8, 4, '2023-11-05 21:38:32', '', -1, 19),
+(28, 8, 6, '2023-11-05 21:38:40', '', -1, 19);
 
 -- --------------------------------------------------------
 
@@ -779,116 +786,118 @@ CREATE TABLE `utilisateur` (
   `login` text NOT NULL,
   `motDePasse` text NOT NULL,
   `idCategorie_utilisateur` int(11) NOT NULL,
-  `desactiver` tinyint(1) DEFAULT NULL
+  `desactiver` tinyint(1) DEFAULT NULL,
+  `aAccepteRGPD` tinyint(1) NOT NULL DEFAULT 0,
+  `dateAcceptionRGPD` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `utilisateur`
 --
 
-INSERT INTO `utilisateur` (`idUtilisateur`, `login`, `motDePasse`, `idCategorie_utilisateur`, `desactiver`) VALUES
-(18, 'root', 'secret', 1, 0),
-(19, 'utilisateurcafe', 'secret', 2, 0),
-(671, 'contact@blogtags.com', 'secret', 3, 0),
-(672, 'contact@brainverse.com', 'secret', 3, 0),
-(673, 'contact@browsecat.com', 'secret', 3, 0),
-(674, 'contact@bubblebox.com', 'secret', 3, 0),
-(675, 'contact@devbug.com', 'secret', 3, 0),
-(676, 'contact@edgeblab.com', 'secret', 3, 0),
-(677, 'contact@edgeblab.com', 'secret', 3, 0),
-(678, 'contact@edgeify.com', 'secret', 3, 0),
-(679, 'contact@flipstorm.com', 'secret', 3, 0),
-(680, 'contact@gabcube.com', 'secret', 3, 0),
-(681, 'contact@jazzy.com', 'secret', 3, 0),
-(682, 'contact@jazzy.com', 'secret', 3, 0),
-(683, 'contact@jetwire.com', 'secret', 3, 0),
-(684, 'contact@kazio.com', 'secret', 3, 0),
-(685, 'contact@oozz.com', 'secret', 3, 0),
-(686, 'contact@oozz.com', 'secret', 3, 0),
-(687, 'contact@oyondu.com', 'secret', 3, 0),
-(688, 'contact@realbridge.com', 'secret', 3, 0),
-(689, 'contact@skimia.com', 'secret', 3, 0),
-(690, 'contact@tagpad.com', 'secret', 3, 0),
-(691, 'contact@topiclounge.com', 'secret', 3, 0),
-(692, 'contact@twimbo.com', 'secret', 3, 0),
-(693, 'contact@twimm.com', 'secret', 3, 0),
-(694, 'contact@voonder.com', 'secret', 3, 0),
-(695, 'contact@zoombox.com', 'secret', 3, 0),
-(696, 'gerant@blogtagscom', '1234', 4, 0),
-(697, 'vendeur1@blogtagscom', '1234', 4, 0),
-(698, 'vendeur2@blogtagscom', '1234', 4, 0),
-(699, 'gerant@brainversecom', '1234', 4, 0),
-(700, 'vendeur1@brainversecom', '1234', 4, 0),
-(701, 'vendeur2@brainversecom', '1234', 4, 0),
-(702, 'gerant@browsecatcom', '1234', 4, 0),
-(703, 'vendeur1@browsecatcom', '1234', 4, 0),
-(704, 'vendeur2@browsecatcom', '1234', 4, 0),
-(705, 'gerant@bubbleboxcom', '1234', 4, 0),
-(706, 'vendeur1@bubbleboxcom', '1234', 4, 0),
-(707, 'vendeur2@bubbleboxcom', '1234', 4, 0),
-(708, 'gerant@devbugcom', '1234', 4, 0),
-(709, 'vendeur1@devbugcom', '1234', 4, 0),
-(710, 'vendeur2@devbugcom', '1234', 4, 0),
-(711, 'gerant@edgeblabcom', '1234', 4, 0),
-(712, 'vendeur1@edgeblabcom', '1234', 4, 0),
-(713, 'vendeur2@edgeblabcom', '1234', 4, 0),
-(714, 'gerant@edgeblabcom', '1234', 4, 0),
-(715, 'vendeur1@edgeblabcom', '1234', 4, 0),
-(716, 'vendeur2@edgeblabcom', '1234', 4, 0),
-(717, 'gerant@edgeifycom', '1234', 4, 0),
-(718, 'vendeur1@edgeifycom', '1234', 4, 0),
-(719, 'vendeur2@edgeifycom', '1234', 4, 0),
-(720, 'gerant@flipstormcom', '1234', 4, 0),
-(721, 'vendeur1@flipstormcom', '1234', 4, 0),
-(722, 'vendeur2@flipstormcom', '1234', 4, 0),
-(723, 'gerant@gabcubecom', '1234', 4, 0),
-(724, 'vendeur1@gabcubecom', '1234', 4, 0),
-(725, 'vendeur2@gabcubecom', '1234', 4, 0),
-(726, 'gerant@jazzycom', '1234', 4, 0),
-(727, 'vendeur1@jazzycom', '1234', 4, 0),
-(728, 'vendeur2@jazzycom', '1234', 4, 0),
-(729, 'gerant@jazzycom', '1234', 4, 0),
-(730, 'vendeur1@jazzycom', '1234', 4, 0),
-(731, 'vendeur2@jazzycom', '1234', 4, 0),
-(732, 'gerant@jetwirecom', '1234', 4, 0),
-(733, 'vendeur1@jetwirecom', '1234', 4, 0),
-(734, 'vendeur2@jetwirecom', '1234', 4, 0),
-(735, 'gerant@kaziocom', '1234', 4, 0),
-(736, 'vendeur1@kaziocom', '1234', 4, 0),
-(737, 'vendeur2@kaziocom', '1234', 4, 0),
-(738, 'gerant@oozzcom', '1234', 4, 0),
-(739, 'vendeur1@oozzcom', '1234', 4, 0),
-(740, 'vendeur2@oozzcom', '1234', 4, 0),
-(741, 'gerant@oozzcom', '1234', 4, 0),
-(742, 'vendeur1@oozzcom', '1234', 4, 0),
-(743, 'vendeur2@oozzcom', '1234', 4, 0),
-(744, 'gerant@oyonducom', '1234', 4, 0),
-(745, 'vendeur1@oyonducom', '1234', 4, 0),
-(746, 'vendeur2@oyonducom', '1234', 4, 0),
-(747, 'gerant@realbridgecom', '1234', 4, 0),
-(748, 'vendeur1@realbridgecom', '1234', 4, 0),
-(749, 'vendeur2@realbridgecom', '1234', 4, 0),
-(750, 'gerant@skimiacom', '1234', 4, 0),
-(751, 'vendeur1@skimiacom', '1234', 4, 0),
-(752, 'vendeur2@skimiacom', '1234', 4, 0),
-(753, 'gerant@tagpadcom', '1234', 4, 0),
-(754, 'vendeur1@tagpadcom', '1234', 4, 0),
-(755, 'vendeur2@tagpadcom', '1234', 4, 0),
-(756, 'gerant@topicloungecom', '1234', 4, 0),
-(757, 'vendeur1@topicloungecom', '1234', 4, 0),
-(758, 'vendeur2@topicloungecom', '1234', 4, 0),
-(759, 'gerant@twimbocom', '1234', 4, 0),
-(760, 'vendeur1@twimbocom', '1234', 4, 0),
-(761, 'vendeur2@twimbocom', '1234', 4, 0),
-(762, 'gerant@twimmcom', '1234', 4, 0),
-(763, 'vendeur1@twimmcom', '1234', 4, 0),
-(764, 'vendeur2@twimmcom', '1234', 4, 0),
-(765, 'gerant@voondercom', '1234', 4, 0),
-(766, 'vendeur1@voondercom', '1234', 4, 0),
-(767, 'vendeur2@voondercom', '1234', 4, 0),
-(768, 'gerant@zoomboxcom', '1234', 4, 0),
-(769, 'vendeur1@zoomboxcom', '1234', 4, 0),
-(770, 'vendeur2@zoomboxcom', '1234', 4, 0);
+INSERT INTO `utilisateur` (`idUtilisateur`, `login`, `motDePasse`, `idCategorie_utilisateur`, `desactiver`, `aAccepteRGPD`, `dateAcceptionRGPD`) VALUES
+(18, 'root', 'secret', 1, 0, 0, NULL),
+(19, 'utilisateurcafe', 'secret', 2, 0, 0, NULL),
+(671, 'contact@blogtags.com', 'secret', 3, 0, 0, NULL),
+(672, 'contact@brainverse.com', 'secret', 3, 0, 0, NULL),
+(673, 'contact@browsecat.com', 'secret', 3, 0, 0, NULL),
+(674, 'contact@bubblebox.com', 'secret', 3, 0, 0, NULL),
+(675, 'contact@devbug.com', 'secret', 3, 0, 0, NULL),
+(676, 'contact@edgeblab.com', 'secret', 3, 0, 0, NULL),
+(677, 'contact@edgeblab.com', 'secret', 3, 0, 0, NULL),
+(678, 'contact@edgeify.com', 'secret', 3, 0, 0, NULL),
+(679, 'contact@flipstorm.com', 'secret', 3, 0, 0, NULL),
+(680, 'contact@gabcube.com', 'secret', 3, 0, 0, NULL),
+(681, 'contact@jazzy.com', 'secret', 3, 0, 0, NULL),
+(682, 'contact@jazzy.com', 'secret', 3, 0, 0, NULL),
+(683, 'contact@jetwire.com', 'secret', 3, 0, 0, NULL),
+(684, 'contact@kazio.com', 'secret', 3, 0, 0, NULL),
+(685, 'contact@oozz.com', 'secret', 3, 0, 0, NULL),
+(686, 'contact@oozz.com', 'secret', 3, 0, 0, NULL),
+(687, 'contact@oyondu.com', 'secret', 3, 0, 0, NULL),
+(688, 'contact@realbridge.com', 'secret', 3, 0, 0, NULL),
+(689, 'contact@skimia.com', 'secret', 3, 0, 0, NULL),
+(690, 'contact@tagpad.com', 'secret', 3, 0, 0, NULL),
+(691, 'contact@topiclounge.com', 'secret', 3, 0, 0, NULL),
+(692, 'contact@twimbo.com', 'secret', 3, 0, 0, NULL),
+(693, 'contact@twimm.com', 'secret', 3, 0, 0, NULL),
+(694, 'contact@voonder.com', 'secret', 3, 0, 0, NULL),
+(695, 'contact@zoombox.com', 'secret', 3, 0, 0, NULL),
+(696, 'gerant@blogtagscom', '1234', 4, 0, 0, NULL),
+(697, 'vendeur1@blogtagscom', '1234', 4, 0, 0, NULL),
+(698, 'vendeur2@blogtagscom', '1234', 4, 0, 0, NULL),
+(699, 'gerant@brainversecom', '1234', 4, 0, 0, NULL),
+(700, 'vendeur1@brainversecom', '1234', 4, 0, 0, NULL),
+(701, 'vendeur2@brainversecom', '1234', 4, 0, 0, NULL),
+(702, 'gerant@browsecatcom', '1234', 4, 0, 0, NULL),
+(703, 'vendeur1@browsecatcom', '1234', 4, 0, 0, NULL),
+(704, 'vendeur2@browsecatcom', '1234', 4, 0, 0, NULL),
+(705, 'gerant@bubbleboxcom', '1234', 4, 0, 0, NULL),
+(706, 'vendeur1@bubbleboxcom', '1234', 4, 0, 0, NULL),
+(707, 'vendeur2@bubbleboxcom', '1234', 4, 0, 0, NULL),
+(708, 'gerant@devbugcom', '1234', 4, 0, 0, NULL),
+(709, 'vendeur1@devbugcom', '1234', 4, 0, 0, NULL),
+(710, 'vendeur2@devbugcom', '1234', 4, 0, 0, NULL),
+(711, 'gerant@edgeblabcom', '1234', 4, 0, 0, NULL),
+(712, 'vendeur1@edgeblabcom', '1234', 4, 0, 0, NULL),
+(713, 'vendeur2@edgeblabcom', '1234', 4, 0, 0, NULL),
+(714, 'gerant@edgeblabcom', '1234', 4, 0, 0, NULL),
+(715, 'vendeur1@edgeblabcom', '1234', 4, 0, 0, NULL),
+(716, 'vendeur2@edgeblabcom', '1234', 4, 0, 0, NULL),
+(717, 'gerant@edgeifycom', '1234', 4, 0, 0, NULL),
+(718, 'vendeur1@edgeifycom', '1234', 4, 0, 0, NULL),
+(719, 'vendeur2@edgeifycom', '1234', 4, 0, 0, NULL),
+(720, 'gerant@flipstormcom', '1234', 4, 0, 0, NULL),
+(721, 'vendeur1@flipstormcom', '1234', 4, 0, 0, NULL),
+(722, 'vendeur2@flipstormcom', '1234', 4, 0, 0, NULL),
+(723, 'gerant@gabcubecom', '1234', 4, 0, 0, NULL),
+(724, 'vendeur1@gabcubecom', '1234', 4, 0, 0, NULL),
+(725, 'vendeur2@gabcubecom', '1234', 4, 0, 0, NULL),
+(726, 'gerant@jazzycom', '1234', 4, 0, 0, NULL),
+(727, 'vendeur1@jazzycom', '1234', 4, 0, 0, NULL),
+(728, 'vendeur2@jazzycom', '1234', 4, 0, 0, NULL),
+(729, 'gerant@jazzycom', '1234', 4, 0, 0, NULL),
+(730, 'vendeur1@jazzycom', '1234', 4, 0, 0, NULL),
+(731, 'vendeur2@jazzycom', '1234', 4, 0, 0, NULL),
+(732, 'gerant@jetwirecom', '1234', 4, 0, 0, NULL),
+(733, 'vendeur1@jetwirecom', '1234', 4, 0, 0, NULL),
+(734, 'vendeur2@jetwirecom', '1234', 4, 0, 0, NULL),
+(735, 'gerant@kaziocom', '1234', 4, 0, 0, NULL),
+(736, 'vendeur1@kaziocom', '1234', 4, 0, 0, NULL),
+(737, 'vendeur2@kaziocom', '1234', 4, 0, 0, NULL),
+(738, 'gerant@oozzcom', '1234', 4, 0, 0, NULL),
+(739, 'vendeur1@oozzcom', '1234', 4, 0, 0, NULL),
+(740, 'vendeur2@oozzcom', '1234', 4, 0, 0, NULL),
+(741, 'gerant@oozzcom', '1234', 4, 0, 0, NULL),
+(742, 'vendeur1@oozzcom', '1234', 4, 0, 0, NULL),
+(743, 'vendeur2@oozzcom', '1234', 4, 0, 0, NULL),
+(744, 'gerant@oyonducom', '1234', 4, 0, 0, NULL),
+(745, 'vendeur1@oyonducom', '1234', 4, 0, 0, NULL),
+(746, 'vendeur2@oyonducom', '1234', 4, 0, 0, NULL),
+(747, 'gerant@realbridgecom', '1234', 4, 0, 0, NULL),
+(748, 'vendeur1@realbridgecom', '1234', 4, 0, 0, NULL),
+(749, 'vendeur2@realbridgecom', '1234', 4, 0, 0, NULL),
+(750, 'gerant@skimiacom', '1234', 4, 0, 0, NULL),
+(751, 'vendeur1@skimiacom', '1234', 4, 0, 0, NULL),
+(752, 'vendeur2@skimiacom', '1234', 4, 0, 0, NULL),
+(753, 'gerant@tagpadcom', '1234', 4, 0, 0, NULL),
+(754, 'vendeur1@tagpadcom', '1234', 4, 0, 0, NULL),
+(755, 'vendeur2@tagpadcom', '1234', 4, 0, 0, NULL),
+(756, 'gerant@topicloungecom', '1234', 4, 0, 0, NULL),
+(757, 'vendeur1@topicloungecom', '1234', 4, 0, 0, NULL),
+(758, 'vendeur2@topicloungecom', '1234', 4, 0, 0, NULL),
+(759, 'gerant@twimbocom', '1234', 4, 0, 0, NULL),
+(760, 'vendeur1@twimbocom', '1234', 4, 0, 0, NULL),
+(761, 'vendeur2@twimbocom', '1234', 4, 0, 0, NULL),
+(762, 'gerant@twimmcom', '1234', 4, 0, 0, NULL),
+(763, 'vendeur1@twimmcom', '1234', 4, 0, 0, NULL),
+(764, 'vendeur2@twimmcom', '1234', 4, 0, 0, NULL),
+(765, 'gerant@voondercom', '1234', 4, 0, 0, NULL),
+(766, 'vendeur1@voondercom', '1234', 4, 0, 0, NULL),
+(767, 'vendeur2@voondercom', '1234', 4, 0, 0, NULL),
+(768, 'gerant@zoomboxcom', '1234', 4, 0, 0, NULL),
+(769, 'vendeur1@zoomboxcom', '1234', 4, 0, 0, NULL),
+(770, 'vendeur2@zoomboxcom', '1234', 4, 0, 0, NULL);
 
 --
 -- Index pour les tables déchargées
@@ -982,7 +991,7 @@ ALTER TABLE `categorie_utilisateur`
 -- AUTO_INCREMENT pour la table `commande`
 --
 ALTER TABLE `commande`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT pour la table `entreprise`
@@ -994,7 +1003,7 @@ ALTER TABLE `entreprise`
 -- AUTO_INCREMENT pour la table `historique_etat_commande`
 --
 ALTER TABLE `historique_etat_commande`
-  MODIFY `idHistorique` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `idHistorique` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT pour la table `produit`
