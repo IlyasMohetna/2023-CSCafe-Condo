@@ -8,6 +8,7 @@ use App\Vue\Vue_Menu_Administration;
 use App\Vue\Vue_Structure_BasDePage;
 use App\Vue\Vue_Structure_Entete;
 use App\Vue\Vue_Utilisateur_Changement_MDP;
+use App\Fonctions;
 
 
 switch ($action) {
@@ -26,19 +27,22 @@ switch ($action) {
             if ($_REQUEST["NouveauPassword"] == $_REQUEST["ConfirmPassword"]) {
                 $Vue->setEntete(new Vue_Structure_Entete());
                 $Vue->setMenu(new Vue_Menu_Administration());
-                Modele_Utilisateur::Utilisateur_Modifier_motDePasse($_SESSION["idUtilisateur"], $_REQUEST["NouveauPassword"]);
-                $Vue->addToCorps(new Vue_Compte_Administration_Gerer("<label><b>Votre mot de passe a bien été modifié</b></label>"));
-                // Dans ce cas les mots de passe sont bons, il est donc modifier
-
+                if(Fonctions\CalculComplexiteMdp($_REQUEST["ConfirmPassword"]) <= 90){
+                    $Vue->addToCorps(new Vue_Utilisateur_Changement_MDP("<center><b>Votre mot de passe ne respecte pas la politique du mot de passe</b></center>", "Gerer_monCompte"));
+                }else{
+                    Modele_Utilisateur::Utilisateur_Modifier_motDePasse($_SESSION["idUtilisateur"], $_REQUEST["NouveauPassword"]);
+                    $Vue->addToCorps(new Vue_Compte_Administration_Gerer("<center><b>Votre mot de passe a bien été modifié</b></center>"));
+                    // Dans ce cas les mots de passe sont bons, il est donc modifier
+                }
             } else {
                 $Vue->setEntete(new Vue_Structure_Entete());
                 $Vue->setMenu(new Vue_Menu_Administration());
-                $Vue->addToCorps(new Vue_Utilisateur_Changement_MDP("<label><b>Les nouveaux mots de passe ne sont pas identiques</b></label>", "Gerer_monCompte"));
+                $Vue->addToCorps(new Vue_Utilisateur_Changement_MDP("<center><b>Les nouveaux mots de passe ne sont pas identiques</b></center>", "Gerer_monCompte"));
             }
         } else {
             $Vue->setEntete(new Vue_Structure_Entete());
             $Vue->setMenu(new Vue_Menu_Administration());
-            $Vue->addToCorps(new Vue_Utilisateur_Changement_MDP("<label><b>Vous n'avez pas saisi le bon mot de passe</b></label>", "Gerer_monCompte"));
+            $Vue->addToCorps(new Vue_Utilisateur_Changement_MDP("<center><b>Vous n'avez pas saisi le bon mot de passe</b></center>", "Gerer_monCompte"));
         }
         break;
     case  "SeDeconnecter":
