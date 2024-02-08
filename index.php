@@ -43,7 +43,6 @@ else
 //error_log("action : " . $action);
 //utiliser en débuggage pour avoir le type de connexion
 //$Vue->addToCorps(new Vue_AfficherMessage("<br>Action $action<br>"));
-
 switch ($typeConnexion) {
     case "visiteur" :
         include "Controleur/Controleur_visiteur.php";

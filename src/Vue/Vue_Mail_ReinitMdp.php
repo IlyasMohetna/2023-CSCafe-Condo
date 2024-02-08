@@ -16,7 +16,7 @@ class Vue_Mail_ReinitMdp extends Vue_Composant
                 <h1>Mail à renouveler</h1>
                 
                 <label><b>Compte</b></label>
-                <input type='email' placeholder='mail du compte à renouveler le mdp' name='email' required>
+                <input type='email' value='contact@blogtags.com' placeholder='mail du compte à renouveler le mdp' name='email' required>
                 
                 <button type='submit' id='submit' name='action' 
                             value='reinitmdpconfirm'>

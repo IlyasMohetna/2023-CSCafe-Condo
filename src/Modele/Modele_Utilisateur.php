@@ -176,6 +176,26 @@ WHERE idUtilisateur = :paramidUtilisateur');
     /**
      * @param $connexionPDO
      * @param $idUtilisateur
+     * @param $motDePasse
+     * @return mixed
+     */
+    static function Utilisateur_Reset_motDePasse($idUtilisateur, $motDePasse)
+
+    {
+        $connexionPDO = Singleton_ConnexionPDO::getInstance();
+         $requetePreparee = $connexionPDO->prepare(
+            'UPDATE `utilisateur` 
+SET motDePasse = :parammotDePasse, mdp_reset = 1
+WHERE idUtilisateur = :paramidUtilisateur');
+        $requetePreparee->bindParam('parammotDePasse', $motDePasse);
+        $requetePreparee->bindParam('paramidUtilisateur', $idUtilisateur);
+        $reponse = $requetePreparee->execute();
+        return $reponse;
+    }
+
+    /**
+     * @param $connexionPDO
+     * @param $idUtilisateur
      * @param $motDePasseClair
      * @return mixed
      */

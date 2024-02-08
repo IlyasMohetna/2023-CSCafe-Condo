@@ -22,5 +22,19 @@ function CalculComplexiteMdp($mdp) :int{
     $entropy = (int) log(pow($alphabetLen, $passwordLength), 2); // bits
 
     return $entropy;
-
 }
+
+function generateMdp($nbChar)
+{
+    $chaine = "ABCDEFGHIJKLMONOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789&";
+    $pass = '';
+    
+    $chaineLength = strlen($chaine) - 1;
+
+    for ($i = 0; $i < $nbChar; $i++) {
+        $pass .= $chaine[random_int(0, $chaineLength)];
+    }
+    
+    return $pass;
+}
+
