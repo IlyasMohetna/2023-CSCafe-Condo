@@ -46,6 +46,8 @@ switch ($action) {
         $listeArticleCommande = Modele_Commande::Commande_Avoir_Article_Select_ParIdCommande($_REQUEST["idCommande"]);
         $infoCommande = Modele_Commande::Commande_Select_ParIdCommande($_REQUEST["idCommande"]);
         $histoEtatCommande = Modele_Commande::Historique_Etat_Commande_Select_ParIdCommande($_REQUEST["idCommande"]);
+        $logger->info('Changement de situation d\'une commande', ["commande" => $_REQUEST['idCommande'], "situation" => "Commande payée","source" => $_SESSION['idUtilisateur']]);
+
         $Vue->addToCorps(new Vue_Panier_Client($listeArticleCommande, true, $infoCommande));
         $Vue->addToCorps(new Vue_Action_Sur_Commande_Entreprise($infoCommande));
         $Vue->addToCorps(new Vue_Commande_Info($infoCommande));
@@ -60,6 +62,8 @@ switch ($action) {
         $listeArticleCommande = Modele_Commande::Commande_Avoir_Article_Select_ParIdCommande($_REQUEST["idCommande"]);
         $infoCommande = Modele_Commande::Commande_Select_ParIdCommande($_REQUEST["idCommande"]);
         $histoEtatCommande = Modele_Commande::Historique_Etat_Commande_Select_ParIdCommande($_REQUEST["idCommande"]);
+        $logger->info('Changement de situation d\'une commande', ["commande" => $_REQUEST['idCommande'], "situation" => "En Préparation","source" => $_SESSION['idUtilisateur']]);
+
         $Vue->addToCorps(new Vue_Panier_Client($listeArticleCommande, true, $infoCommande));
         $Vue->addToCorps(new Vue_Action_Sur_Commande_Entreprise($infoCommande));
         $Vue->addToCorps(new Vue_Commande_Info($infoCommande));
@@ -74,6 +78,8 @@ switch ($action) {
         $listeArticleCommande = Modele_Commande::Commande_Avoir_Article_Select_ParIdCommande($_REQUEST["idCommande"]);
         $infoCommande = Modele_Commande::Commande_Select_ParIdCommande($_REQUEST["idCommande"]);
         $histoEtatCommande = Modele_Commande::Historique_Etat_Commande_Select_ParIdCommande($_REQUEST["idCommande"]);
+        $logger->info('Changement de situation d\'une commande', ["commande" => $_REQUEST['idCommande'], "situation" => "Problème de stock","source" => $_SESSION['idUtilisateur']]);
+
         $Vue->addToCorps(new Vue_Panier_Client($listeArticleCommande, true, $infoCommande));
         $Vue->addToCorps(new Vue_Action_Sur_Commande_Entreprise($infoCommande));
         $Vue->addToCorps(new Vue_Commande_Info($infoCommande));
@@ -88,6 +94,8 @@ switch ($action) {
         $listeArticleCommande = Modele_Commande::Commande_Avoir_Article_Select_ParIdCommande($_REQUEST["idCommande"]);
         $infoCommande = Modele_Commande::Commande_Select_ParIdCommande($_REQUEST["idCommande"]);
         $histoEtatCommande = Modele_Commande::Historique_Etat_Commande_Select_ParIdCommande($_REQUEST["idCommande"]);
+        $logger->info('Changement de situation d\'une commande', ["commande" => $_REQUEST['idCommande'], "situation" => "Commande envoyée","source" => $_SESSION['idUtilisateur']]);
+
         $Vue->addToCorps(new Vue_Panier_Client($listeArticleCommande, true, $infoCommande));
         $Vue->addToCorps(new Vue_Action_Sur_Commande_Entreprise($infoCommande));
         $Vue->addToCorps(new Vue_Commande_Info($infoCommande));

@@ -30,6 +30,7 @@ switch ($action) {
                 if(Fonctions\CalculComplexiteMdp($_REQUEST["ConfirmPassword"]) <= 90){
                     $Vue->addToCorps(new Vue_Utilisateur_Changement_MDP("<center><b>Votre mot de passe ne respecte pas la politique du mot de passe</b></center>", "Gerer_monCompte"));
                 }else{
+                    $logger->info('Changement d\'un mot de passe', ["source" => $_SESSION['idUtilisateur']]);
                     Modele_Utilisateur::Utilisateur_Modifier_motDePasse($_SESSION["idUtilisateur"], $_REQUEST["NouveauPassword"]);
                     $Vue->addToCorps(new Vue_Compte_Administration_Gerer("<center><b>Votre mot de passe a bien été modifié</b></center>"));
                     // Dans ce cas les mots de passe sont bons, il est donc modifier
@@ -46,6 +47,7 @@ switch ($action) {
         }
         break;
     case  "SeDeconnecter":
+        $logger->info('Tentative de déconnexion réussi', ["source" => $_SESSION['idUtilisateur']]);
         //L'utilisateur a cliqué sur "se déconnecter"
         session_destroy();
         unset($_SESSION);

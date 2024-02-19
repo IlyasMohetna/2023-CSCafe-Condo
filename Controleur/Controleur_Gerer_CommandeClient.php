@@ -74,6 +74,8 @@ switch ($action) {
         $infoCommande = Modele_Commande::Commande_Select_ParIdCommande($_REQUEST["idCommande"]);
         $histoEtatCommande = Modele_Commande::Historique_Etat_Commande_Select_ParIdCommande($_REQUEST["idCommande"]);
         $etatAct = $histoEtatCommande[0];
+        $logger->info('Changement de situation d\'une commande', ["commande" => $_REQUEST['idCommande'], "situation" => "Commande receptionée","source" => $_SESSION['idSalarie']]);
+
         $Vue->addToCorps(new Vue_Panier_Client($listeArticleCommande, true, $infoCommande));
         $Vue->addToCorps(new Vue_Action_Sur_Commande_Client($infoCommande, $etatAct));
         $Vue->addToCorps(new Vue_Afficher_Button_Facture($_REQUEST["idCommande"]));
@@ -93,6 +95,8 @@ switch ($action) {
         $infoCommande = Modele_Commande::Commande_Select_ParIdCommande($_REQUEST["idCommande"]);
         $histoEtatCommande = Modele_Commande::Historique_Etat_Commande_Select_ParIdCommande($_REQUEST["idCommande"]);
         $etatAct = $histoEtatCommande[0];
+        $logger->info('Changement de situation d\'une commande', ["commande" => $_REQUEST['idCommande'], "situation" => "Commande receptionée incident","source" => $_SESSION['idSalarie']]);
+
         $Vue->addToCorps(new Vue_Panier_Client($listeArticleCommande, true, $infoCommande));
         $Vue->addToCorps(new Vue_Action_Sur_Commande_Client($infoCommande, $etatAct));
         $Vue->addToCorps(new Vue_Afficher_Button_Facture($_REQUEST["idCommande"]));

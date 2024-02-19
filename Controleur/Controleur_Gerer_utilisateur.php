@@ -27,6 +27,7 @@ switch ($action) {
 
         break;
     case "mettreAJourUtilisateur":
+        $logger->info('Modification d\'un utilisateur', ['utilisateur modifié'  => $_REQUEST["idUtilisateur"], "source" => $_SESSION['idUtilisateur']]);
 
         //Mettre à jour dans la liste des entreprises
         Modele_Utilisateur::Utilisateur_Modifier($_REQUEST["idUtilisateur"], $_REQUEST["login"], $_REQUEST["niveauAutorisation"]);
@@ -37,6 +38,8 @@ switch ($action) {
 
         break;
     case "réinitialiserMDPUtilisateur":
+        $logger->info('Réinisialisation d\'un mot de pass pour un utilisateur', ['utilisateur modifié'  => $_REQUEST["idUtilisateur"], "source" => $_SESSION['idUtilisateur']]);
+
         //Réinitialiser MDP sur la fiche de l'entreprise
         $Utilisateur = Modele_Utilisateur::Utilisateur_Select_ParId($_REQUEST["idUtilisateur"]);
         Modele_Utilisateur::Utilisateur_Modifier_motDePasse($_REQUEST["idUtilisateur"], "secret"); //$Utilisateur["idUtilisateur"]
@@ -63,10 +66,14 @@ switch ($action) {
             }
         }
         if ($login_deja_attribue == true) {
+            $logger->warning('Tentative de création de compte avec un utilisateur existant', ['utilisateur a créer'  => $_REQUEST["login"], "source" => $_SESSION['idUtilisateur']]);
+
             $listeNiveauAutorisation = Modele_categorie_utilisateur::categorie_utilisateur_Select();
             $Vue->addToCorps(new Vue_Utilisateur_Formulaire(true, $listeNiveauAutorisation));
             $Vue->addToCorps(new Vue_AfficherMessage("<br><label><b>Erreur : Ce login est déjà attribué, veuillez saisir un autre login</b></label>"));
         } else {
+            $logger->info('Création d\'un nouveau compte', ['utilisateur a créer'  => $_REQUEST["login"], "source" => $_SESSION['idUtilisateur']]);
+
             //Créer sur la fiche de création d'une utilisateurs
             Modele_Utilisateur::Utilisateur_Creer($_REQUEST["login"], "secret", $_REQUEST["codeCategorie"]);
             //Redirect_Self_URL();
@@ -76,6 +83,8 @@ switch ($action) {
 
         break;
     case "DesactiverUtilisateur":
+        $logger->info('Désactivation d\'un compte', ['utilisateur'  => $_REQUEST["idUtilisateur"], "source" => $_SESSION['idUtilisateur']]);
+
         //Désactiver utilisateur ou réactiver utilisateur
         $Utilisateur = Modele_Utilisateur::Utilisateur_Select_ParId($_REQUEST["idUtilisateur"]);
         // champ desactiver valeur 0 : personne activée sur le site
@@ -87,6 +96,8 @@ switch ($action) {
         $Vue->addToCorps(new Vue_Utilisateur_Liste($listeUtilisateur));
         break;
     case "ActiverUtilisateur":
+        $logger->info('Activiation d\'un compte', ['utilisateur'  => $_REQUEST["idUtilisateur"], "source" => $_SESSION['idUtilisateur']]);
+
         //Désactiver utilisateur ou réactiver utilisateur
         $Utilisateur = Modele_Utilisateur::Utilisateur_Select_ParId($_REQUEST["idUtilisateur"]);
 

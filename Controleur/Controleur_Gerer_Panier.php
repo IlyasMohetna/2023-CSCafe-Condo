@@ -28,6 +28,7 @@ switch ($action) {
         $Vue->addToCorps(new Vue_Panier_Client($listeArticlePanier));
         break;
     case "validerPanier":
+        $logger->debug('Validation d\'un panier', ["source" => $_SESSION['idEntreprise']]);
         ob_start();
         $listeArticlePanier = Modele_Commande::Panier_ListeArticle($_SESSION["idEntreprise"]);
         $infoCommande = Modele_Commande::Caddie_Select_ParIdEntreprise($_SESSION["idEntreprise"]);

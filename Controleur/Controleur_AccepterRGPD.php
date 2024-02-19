@@ -14,6 +14,7 @@ switch ($action) {
         break;
 
     case "AccepterRGPD":
+        $logger->info('Acceptation des termes RGPD', ["source" => $_SESSION['idUtilisateur']]);
         switch ($_SESSION['typeConnexionBack']) {
             case 'utilisateurCafe':
                 Modele_Utilisateur::Utilisateur_Activer_RGPD($_SESSION["idUtilisateur"]);

@@ -1,5 +1,5 @@
 <?php
-//error_log("page debut");
+// error_log(E_ALL);
 session_start();
 include_once "vendor/autoload.php";
 
@@ -8,6 +8,17 @@ use App\Vue\Vue_AfficherMessage;
 use App\Vue\Vue_Connexion_Formulaire_client;
 use App\Vue\Vue_Menu_Administration;
 use App\Vue\Vue_Structure_Entete;
+use Monolog\Level;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+
+// create a log channel
+$logger = new Logger('cafe');
+$logger->pushHandler(new StreamHandler(__DIR__.'/app.log', Logger::DEBUG));
+$logger->pushProcessor(function ($record) {
+    $record['extra']['ip'] = $_SERVER['REMOTE_ADDR'] == '::1' ? '127.0.0.1' : $_SERVER['REMOTE_ADDR'];
+    return $record;
+});
 
 
 //Page appelée pour les utilisateurs publics
@@ -16,12 +27,14 @@ $Vue = new Vue();
 
 //Charge le gestionnaire de vue
 
-
 if (isset($_SESSION["typeConnexionBack"])) {
     $typeConnexion = $_SESSION["typeConnexionBack"];
 } else {
     $typeConnexion = "visiteur";
 }
+
+$logger->info('Demande de réinitiation de mot de passe', [$typeConnexion]);
+
 //error_log("typeConnexion : " . $typeConnexion)  ;
 //utiliser en débuggage pour avoir le type de connexion
 //$Vue->addToCorps(new Vue_AfficherMessage("<br>typeConnexion $typeConnexion<br>"));

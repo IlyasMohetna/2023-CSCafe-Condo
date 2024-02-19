@@ -21,10 +21,10 @@ switch ($action) {
 
         if(isset($_POST['email'])){
             $email = $_POST['email'];
-
             $utilisateur = Modele_Utilisateur::Utilisateur_Select_ParLogin($email);
 
             if($utilisateur){
+                $logger->info('Demande de réinitiation de mot de passe', ['email'  => $email]);
                 $id_utilisateur = $utilisateur['idUtilisateur'];
                 $generateMdp = Fonctions\generateMdp(20);
     
@@ -38,6 +38,7 @@ switch ($action) {
                     $Vue->addToCorps(new Vue_Mail_Confirme());
                 }
             }else{
+                $logger->info('Demande de réinitiation de mot de passe par un mail introuvable', ['email'  => $email]);
                 echo"erreur";
             }
         }
@@ -51,8 +52,6 @@ switch ($action) {
         break;
 
     case "forceChangeMdp": // No old password required
-        echo"here";
-        exit();
         $Utilisateur = Modele_Utilisateur::Utilisateur_Select_ParId($_REQUEST["idUtilisateur"]);
         Modele_Utilisateur::Utilisateur_Modifier_motDePasse($_REQUEST["idUtilisateur"], $_POST['']);
         $Vue->setMenu(new Vue_Menu_Administration());
@@ -60,6 +59,7 @@ switch ($action) {
         break;
 
     case "Se connecter" :
+
         if (isset($_REQUEST["compte"]) and isset($_REQUEST["password"])) {
             //Si tous les paramètres du formulaire sont bons
 
@@ -68,8 +68,11 @@ switch ($action) {
             if ($utilisateur != null) {
                 if ($utilisateur["desactiver"] == 0) {
                         if ($_REQUEST["password"] == $utilisateur["motDePasse"]) {
+
                             $_SESSION["idUtilisateur"] = $utilisateur["idUtilisateur"];
                             $_SESSION["idCategorie_utilisateur"] = $utilisateur["idCategorie_utilisateur"];
+
+                            $logger->info('Tentative de connexion réussi', ['id_user'  => $_SESSION["idUtilisateur"]]);
 
                             // ------ Vérifier si c'est un mot de passe temporaire
                             if(isset($utilisateur['mdp_reset']) && $utilisateur['mdp_reset'] == 1){
@@ -114,22 +117,29 @@ switch ($action) {
                             }
                             // ------
                         } else {//mot de passe pas bon
+                            $logger->info('Tentative de connexion echoué', ['utilisateur'  => $_REQUEST["compte"]]);
+
                             $msgError = "Mot de passe erroné";
     
                             $Vue->addToCorps(new Vue_Connexion_Formulaire_client($msgError));
                         }
                 } else {
+                    $logger->warning('Tentative de connexion compte désactivé' .' '. $_SERVER['PHP_SELF']);
                     $msgError = "Compte désactivé";
 
                     $Vue->addToCorps(new Vue_Connexion_Formulaire_client($msgError));
 
                 }
             } else {
+                $logger->warning('Tentative de connexion avec un utilisateur inexistant', ['utilisateur'  => $_REQUEST["compte"]]);
+
                 $msgError = "Identification invalide";
 
                 $Vue->addToCorps(new Vue_Connexion_Formulaire_client($msgError));
             }
         } else {
+            $logger->warning('Tentative de connexion avec des champs vide', ['utilisateur'  => $_REQUEST["compte"]]);
+
             $msgError = "Identification incomplete";
 
             $Vue->addToCorps(new Vue_Connexion_Formulaire_client($msgError));
