@@ -13,6 +13,8 @@ use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\RotatingFileHandler;
 
+require_once('./logdb_handler/dbcheck.php');
+
 // create a log channel
 $logger = new Logger('cafe');
 // $logger->pushHandler(new StreamHandler(__DIR__.'/app.log', Logger::DEBUG));
