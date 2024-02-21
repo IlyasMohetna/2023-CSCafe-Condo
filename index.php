@@ -2,6 +2,7 @@
 // error_log(E_ALL);
 session_start();
 include_once "vendor/autoload.php";
+require_once('./LogHandler/dbcheck.php');
 
 use App\Utilitaire\Vue;
 use App\Vue\Vue_AfficherMessage;
@@ -12,8 +13,25 @@ use Monolog\Level;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\RotatingFileHandler;
+use LogHandler\IlyasLog;
 
-require_once('./logdb_handler/dbcheck.php');
+
+// IlyasLog
+
+$ilyaslog = new IlyasLog();
+
+// Exemple d'utilisation avec les nouvelles variables nommés de PHP
+
+$ilyaslog->log(
+    causer_id: 1,
+    causer_type: 'visiteur',
+    target: 'users',
+    comment : 'Chargement de l\'application',
+    details: json_encode(['data' => 'value'])  
+);
+
+// -----
+
 
 // create a log channel
 $logger = new Logger('cafe');
@@ -24,7 +42,6 @@ $logger->pushProcessor(function ($record) {
     $record['extra']['ip'] = $_SERVER['REMOTE_ADDR'] == '::1' ? '127.0.0.1' : $_SERVER['REMOTE_ADDR'];
     return $record;
 });
-
 
 //Page appelée pour les utilisateurs publics
 

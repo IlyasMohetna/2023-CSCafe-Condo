@@ -1,6 +1,6 @@
 <?php
 
-namespace logdb_handler;
+namespace LogHandler;
 
 include_once "vendor/autoload.php";
 

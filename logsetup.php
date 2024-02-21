@@ -24,7 +24,7 @@ function createLogsTable($pdo) {
             log_causer_type VARCHAR(255),
             log_target VARCHAR(255),
             log_comment VARCHAR(255),
-            log_details TEXT,
+            log_details TEXT NULL,
             log_date DATETIME
         )");
     } catch (PDOException $e) {
