@@ -11,10 +11,13 @@ use App\Vue\Vue_Structure_Entete;
 use Monolog\Level;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
+use Monolog\Handler\RotatingFileHandler;
 
 // create a log channel
 $logger = new Logger('cafe');
-$logger->pushHandler(new StreamHandler(__DIR__.'/app.log', Logger::DEBUG));
+// $logger->pushHandler(new StreamHandler(__DIR__.'/app.log', Logger::DEBUG));
+$logFilePath = __DIR__ . '/logs/app-' . date('Y-m-d') . '.log';
+$logger->pushHandler(new StreamHandler($logFilePath, Logger::DEBUG));
 $logger->pushProcessor(function ($record) {
     $record['extra']['ip'] = $_SERVER['REMOTE_ADDR'] == '::1' ? '127.0.0.1' : $_SERVER['REMOTE_ADDR'];
     return $record;
@@ -32,8 +35,6 @@ if (isset($_SESSION["typeConnexionBack"])) {
 } else {
     $typeConnexion = "visiteur";
 }
-
-$logger->info('Demande de réinitiation de mot de passe', [$typeConnexion]);
 
 //error_log("typeConnexion : " . $typeConnexion)  ;
 //utiliser en débuggage pour avoir le type de connexion
